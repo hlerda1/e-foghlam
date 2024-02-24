@@ -115,7 +115,7 @@ export const ComisionGrid = () => {
                   </div>
 
                   <div className='form-group'>
-                    <input
+                    {/* <input
                       type='text'
                       className='form-control mb-4'
                       name='alumno'
@@ -124,10 +124,14 @@ export const ComisionGrid = () => {
                       // onChange={onInputChange}
                       placeholder='Alumno'
                       required=''
-                    />
+                    /> */}
 
                     <h5>Alumnos</h5>
-                    <select value={selectedValue} onChange={handleChange}>
+                    <select 
+                    className='form-control mb-4'
+                    name='alumno'
+                    value={alumno} 
+                    onChange={(e) => onInputChange(e)}>
                       {alumnoSeleccion.map((op) => (
                         <option key={op}>{op.nombre}</option>
                       ))}
