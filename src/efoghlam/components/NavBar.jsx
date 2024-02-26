@@ -40,7 +40,8 @@ export const NavBar = () => {
             TEST
           </NavLink>:null
           }
-
+          {
+          show?
             <NavLink
               className={({ isActive }) =>
                 `nav-link ${isActive ? 'active' : ''}`
@@ -48,8 +49,8 @@ export const NavBar = () => {
               to='/comisiones'
             >
               Comisiones
-            </NavLink>
-
+            </NavLink>:null
+            }
             <NavLink
               className={({ isActive }) =>
                 `nav-link ${isActive ? 'active' : ''}`
