@@ -22,9 +22,11 @@ const registerFormFields = {
   RegisterRol: '',
 };
 
+
+
 export const LoginPage = () => {
-  const { startLogin, errorMessage, startRegister } = useAuthStore();
-  // estado inicial es loginFormFields
+  const { startLogin, errorMessage, user, startRegister } = useAuthStore();
+  // estado inicial es loginFormFields  
   const {
     loginEmail,
     loginPassword,
@@ -39,6 +41,7 @@ export const LoginPage = () => {
   const loginSubmit = (event) => {
     event.preventDefault();
     startLogin({ email: loginEmail, password: loginPassword });
+    console.log(user.nombre);
     localStorage.setItem('user', JSON.stringify(userRole));
     navigate('/auth/login');
   };

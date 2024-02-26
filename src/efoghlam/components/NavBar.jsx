@@ -1,13 +1,24 @@
+import { useEffect, useState } from 'react';
 import { useAuthStore } from '../../hooks/useAuthStore';
 import { Link, NavLink } from 'react-router-dom';
 
 export const NavBar = () => {
   const { startLogout, user } = useAuthStore();
+  const [show, setShow] = useState(false)
 
-  // let currentUserRole;
-  // if (localStorage.getItem('user')) {
-  //   currentUserRole = JSON.parse(localStorage.getItem('user'));
-  // }
+  let x;
+  let currentUserRole;
+  if (localStorage.getItem('user')) {
+    currentUserRole = JSON.parse(localStorage.getItem('user'));    
+  }
+  // const [show, setShow] = useState(currentUserRole === "Docente"); // Initialize show based on user role
+  
+  if (currentUserRole === "Docente"){
+    x = true
+  }
+  useEffect(() => {setShow(x);}, []);
+
+
   return (
     <div className='navbar navbar-expand navbar-dark bg-dark mb px-4'>
       <span className='navbar-brand'>
@@ -19,6 +30,17 @@ export const NavBar = () => {
       <div className='container-fluid'>
         <div className='collapse navbar-collapse' id='navbarNav'>
           <ul className='navbar-nav'>
+          {
+          show?<NavLink
+          className={({ isActive }) =>
+            `nav-link ${isActive ? 'active' : ''}`
+          }
+          to='/comisiones'
+          >
+            TEST
+          </NavLink>:null
+          }
+
             <NavLink
               className={({ isActive }) =>
                 `nav-link ${isActive ? 'active' : ''}`
