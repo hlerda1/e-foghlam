@@ -1,10 +1,10 @@
-export const ActividadEvent = ({ event}) => {
+export const Evento = ({ event}) => {
   const { title, user } = event;
   //console.log(props);
   return (
     <>
       <strong>{title}</strong>
-      <strong>- {user.name}</strong>
+      {/* <strong>- {user.name}</strong> */}
     </>
   );
 };

@@ -12,6 +12,7 @@ import { tutor_route } from '../router/TutorRoute.jsx';
 import { Alumno } from '../efoghlam/pages/Alumno.jsx';
 import { Docente } from '../efoghlam/pages/Docente.jsx';
 import { Tutor } from '../efoghlam/pages/Tutor.jsx';
+import { Calendario } from '../efoghlam/pages/Calendario.jsx';
 // import { Comisiones } from '../efoghlam/pages/Comisiones.jsx';
 // import { Actividades } from '../efoghlam/pages/Actividades.jsx';
 
@@ -46,6 +47,7 @@ export const AppRouter = () => {
           <Route path='/tutores' element={<Tutor />} />
           {/* <Route path='/comisiones' element={<Comisiones />} /> */}
           {/* <Route path='/actividades' element={<Actividades />} /> */}
+          <Route path='/calendario' element={<Calendario />} />
         </>
       )}
       {protectedRoutes.map((e) => {

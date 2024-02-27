@@ -1,30 +1,18 @@
 import { Calendar } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-
-import { addHours } from 'date-fns';
 import { localizer } from '../../../helpers/CalendarLocalizer';
 import { getMessagesES } from '../../../helpers/getMessages';
-import { ActividadEvent } from './ActividadEvent';
-import { useState } from 'react';
-import { ActividadModal } from './ActividadModal';
+import { Evento } from './Evento';
+import { useEffect, useState } from 'react';
+import { EventoModal } from './EventoModal';
 import { useUiStore } from '../../../hooks/useUiStore';
+import { useCalendarStore } from '../../../hooks/useCalendarStore';
+// import { FabAddNew } from '../../components/FabAddNew';
+// import { FabDelete } from '../../components/FabDelete';
 
-const events = [
-  {
-    title: 'Examen',
-    notes: 'Examen escrito',
-    start: new Date(),
-    end: addHours(new Date(), 2),
-    bgColor: '#fafafa',
-    user: {
-      _id: '123',
-      name: 'Carla',
-    },
-  },
-];
-
-export const ActividadesGrid = () => {
+export const EventosGrid = () => {
   const { openDateModal } = useUiStore();
+  const { events, setActiveEvent, startLoadingEvents } = useCalendarStore();
   const [lastView, setLastView] = useState(
     localStorage.getItem('lastView') || 'week'
   );
@@ -42,22 +30,24 @@ export const ActividadesGrid = () => {
     };
   };
 
-  // 3 eventos
   const onDoubleClick = (event) => {
     openDateModal();
   };
 
   const onSelect = (event) => {
-    console.log({ click: event });
+    setActiveEvent(event);
   };
 
   const onViewChanged = (event) => {
     localStorage.setItem('lastView', event);
-    //console.log({ viewChanged: event });
   };
+
+  useEffect(() => {
+    startLoadingEvents();
+  }, []);
   return (
     <>
-      <h1>Actividades</h1>
+      <h1>Eventos</h1>
       <Calendar
         culture='es'
         localizer={localizer}
@@ -70,14 +60,16 @@ export const ActividadesGrid = () => {
         eventPropGetter={eventStyleGetter}
         components={{
           //event se envia como prop a ActividadEvent
-          event: ActividadEvent,
+          event: Evento,
         }}
         onDoubleClickEvent={onDoubleClick}
         onSelectEvent={onSelect}
         onView={onViewChanged}
       />
 
-      <ActividadModal />
+      <EventoModal />
+      {/* <FabAddNew />
+      <FabDelete /> */}
     </>
   );
 };
