@@ -34,18 +34,17 @@ export const LoginPage = () => {
   } = useForm(loginFormFields);
 
   //
-  const [userRole, setUserRole] = useState();
+  // const [userRole, setUserRole] = useState();
   const navigate = useNavigate();
 
   // metodo para enviar datos al formulario login
   const loginSubmit = (event) => {
     event.preventDefault();
     startLogin({ email: loginEmail, password: loginPassword });
-    console.log(user.nombre);
-    localStorage.setItem('user', JSON.stringify(userRole));
+    // localStorage.setItem('user', JSON.stringify(userRole));
     navigate('/auth/login');
   };
-
+  
   const {
     RegisterNombre,
     RegisterApellido,
@@ -121,7 +120,7 @@ export const LoginPage = () => {
               />
             </div>
 
-            <div className='form-group mb-2'>
+            {/* <div className='form-group mb-2'>
               <select
                 required
                 className='form-control'
@@ -134,7 +133,7 @@ export const LoginPage = () => {
                 <option value={'Alumno'}>Alumno</option>
                 <option value={'Tutor'}>Tutor</option>
               </select>
-            </div>
+            </div> */}
 
             <div className='form-group mb-2'>
               <input type='submit' className='btnSubmit' value='Login' />

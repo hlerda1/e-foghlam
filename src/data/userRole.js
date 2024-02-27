@@ -1,5 +1,5 @@
 export const userRoles = {
-  docente: 'Docente',
-  alumno: 'Alumno',
-  tutor: 'Tutor',
+  docente: 'docente',
+  alumno: 'alumno',
+  tutor: 'tutor',
 };

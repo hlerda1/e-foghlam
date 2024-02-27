@@ -19,7 +19,8 @@ export const useAuthStore = () => {
       const { data } = await efoghlamApi.post('/auth', { email, password });
       localStorage.setItem('token', data.token);
       localStorage.setItem('token-init-date', new Date().getTime());
-      dispatch(onLogin({ nombre: data.nombre, uid: data.uid }));
+      localStorage.setItem('user', JSON.stringify(data.rol));
+      dispatch(onLogin({ nombre: data.nombre, uid: data.uid, rol: data.rol }));
     } catch (error) {
       dispatch(onLogout('Credenciales invalidas'));
 

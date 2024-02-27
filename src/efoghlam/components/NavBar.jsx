@@ -13,7 +13,7 @@ export const NavBar = () => {
   }
   // const [show, setShow] = useState(currentUserRole === "Docente"); // Initialize show based on user role
   
-  if (currentUserRole === "Docente"){
+  if (currentUserRole === "docente"){
     x = true
   }
   useEffect(() => {setShow(x);}, []);
