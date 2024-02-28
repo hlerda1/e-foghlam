@@ -31,16 +31,14 @@ export const NavBar = () => {
       <div className='container-fluid'>
         <div className='collapse navbar-collapse' id='navbarNav'>
           <ul className='navbar-nav'>
-            {show ? (
               <NavLink
                 className={({ isActive }) =>
                   `nav-link ${isActive ? 'active' : ''}`
                 }
-                to='/comisiones'
+                to='/auth/login'
               >
-                TEST
+                Inicio
               </NavLink>
-            ) : null}
             {show ? (
               <NavLink
                 className={({ isActive }) =>
