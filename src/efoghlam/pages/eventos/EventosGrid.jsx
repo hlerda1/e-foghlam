@@ -7,8 +7,8 @@ import { useEffect, useState } from 'react';
 import { EventoModal } from './EventoModal';
 import { useUiStore } from '../../../hooks/useUiStore';
 import { useCalendarStore } from '../../../hooks/useCalendarStore';
-// import { FabAddNew } from '../../components/FabAddNew';
-// import { FabDelete } from '../../components/FabDelete';
+import { FabAddNew } from '../../components/FabAddNew';
+import { FabDelete } from '../../components/FabDelete';
 
 export const EventosGrid = () => {
   const { openDateModal } = useUiStore();
@@ -68,8 +68,8 @@ export const EventosGrid = () => {
       />
 
       <EventoModal />
-      {/* <FabAddNew />
-      <FabDelete /> */}
+      <FabAddNew />
+      <FabDelete />
     </>
   );
 };

@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   onAddNewEvent,
   onDeleteEvent,
+  // onDeleteEvent,
   onLoadEvents,
   onSetActiveEvent,
   onUpdateEvent,
@@ -13,30 +14,35 @@ import Swal from 'sweetalert2';
 export const useCalendarStore = () => {
   const dispatch = useDispatch();
   const { events, activeEvent } = useSelector((state) => state.calendar);
-  const { user } = useSelector((state) => state.auth);
   const setActiveEvent = (calendarEvent) => {
     dispatch(onSetActiveEvent(calendarEvent));
   };
 
   const startSavingEvent = async (calendarEvent) => {
     try {
-      if (calendarEvent.id) {
-        await efoghlamApi.put(`/evento/${calendarEvent.id}`, calendarEvent);
+      if (calendarEvent._id) {
+        await efoghlamApi.put(`/evento/${calendarEvent._id}`, calendarEvent);
 
-        dispatch(onUpdateEvent({ ...calendarEvent, user }));
+        dispatch(onUpdateEvent({ ...calendarEvent }));
         return;
       }
       const { data } = await efoghlamApi.post('/evento', calendarEvent);
       console.log(data);
-      dispatch(onAddNewEvent({ ...calendarEvent, id: data.evento.id, user }));
+      dispatch(onAddNewEvent({ ...calendarEvent, _id: data.evento._id }));
     } catch (error) {
       console.log(error);
       Swal.fire('Error al guardar', error.response.data.msg, 'error');
     }
   };
 
-  const startDeletingEvent = () => {
-    dispatch(onDeleteEvent());
+  const startDeletingEvent = async () => {
+    try {
+      await efoghlamApi.delete(`/evento/${activeEvent._id}`);
+      dispatch(onDeleteEvent());
+    } catch (error) {
+      console.log(error);
+      Swal.fire('Error al eliminar', error.response.data.msg, 'error');
+    }
   };
 
   const startLoadingEvents = async () => {

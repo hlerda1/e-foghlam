@@ -23,7 +23,6 @@ export const authSlice = createSlice({
     },
     onLogout: (state, { payload }) => {
       (state.status = 'not-authenticated'),
-        (state.rol = 'no-docente'),
         (state.user = {}),
         (state.errorMessage = payload);
     },
