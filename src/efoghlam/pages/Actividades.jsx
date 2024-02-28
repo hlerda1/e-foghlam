@@ -1,15 +1,13 @@
-//import { useState } from 'react';
+import { useState } from 'react';
 import { NavBar } from '../components/NavBar';
-//import { ActividadesGrid } from './actividades/ActividadesGrid';
+import { ActividadList } from './actividad/ActividadList';
 
 export const Actividades = () => {
-  // const [actividades, setActividades] = useState(['']);
+  // const [actividad, setActividad] = useState(['']);
   return (
     <>
       <NavBar />
-      {/* {actividades.map((actividad) => (
-        <ActividadesGrid key={actividad} actividad={actividad} />
-      ))} */}
+      <ActividadList />
     </>
   );
 };
