@@ -23,8 +23,10 @@ export const NavBar = () => {
   return (
     <div className='navbar navbar-expand navbar-dark bg-dark mb px-4'>
       <span className='navbar-brand'>
-        <i className='fa-solid fa-chalkboard-user'></i>
+        <img src="src/images/Foghlan_logo_trans.png" alt="Logo" width={40} height={40}/>
         &nbsp;
+        {/* <i className='fa-solid fa-chalkboard-user'></i>
+        &nbsp; */}
         {user.nombre}
       </span>
 
