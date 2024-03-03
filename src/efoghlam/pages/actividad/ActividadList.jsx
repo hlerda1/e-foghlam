@@ -39,7 +39,7 @@ export const ActividadList = () => {
 
       const getActividades = async () => {
         const newActividades = await getActividad();
-        console.log(newActividades);
+        // console.log(newActividades);
         setCargarActividad(newActividades);
       };
       useEffect(() => {
@@ -117,7 +117,7 @@ export const ActividadList = () => {
                                     id='form1'
                                     // onChange={(e) => setSearch(e.target.value)}
                                     className='form-control'
-                                    placeholder='Buscar comision'
+                                    placeholder='Buscar Actividad'
                                     style={{ backgroundColor: '#ececec' }}
                                 />
                                 </div>
