@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { getComunicacion } from '../../../helpers/getComunicacion';
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../../../hooks/useAuthStore';
+import Accordion from 'react-bootstrap/Accordion';
 //import { getUsuario } from '../../../helpers/getUsuario';
-
 
 export const ComunicacionGrid = () => {
   const [cargarComunicacion, setCargarComunicacion] = useState([]);
@@ -47,7 +47,17 @@ export const ComunicacionGrid = () => {
             <tr key={comunicacion}>
               <td>{comunicacion.titulo}</td>
               <td>{comunicacion.idRemitente}</td>
-              <td>{comunicacion.cuerpo}</td>
+
+              <Accordion>
+                <Accordion.Item eventKey='0'>
+                  <Accordion.Header>
+                    {comunicacion.cuerpo.substring(0, 15) + '...'}
+                  </Accordion.Header>
+                  <Accordion.Body>
+                    <td>{comunicacion.cuerpo}</td>
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
               <td>{comunicacion.fecha}</td>
 
               {/* <td>{comunicacion.destinatarios}</td> */}
