@@ -8,15 +8,13 @@ export const FabAddNewAct = () => {
 
   const handleClickNew = () => {
     setActiveActividad({
-      title: '',
-      descripcion: '',
-      // start: new Date(),
-      // end: addHours(new Date(), 2),
       bgColor: '#fafafa',
-      // user: {
-      //   _id: '123',
-      //   name: 'Docente',
-      // },
+    
+      descripcion: '',
+      tipoActividad: '',
+      fechaFin: '',
+      consigna: '',
+      alumnos: [],
     });
     openActModal();
   };

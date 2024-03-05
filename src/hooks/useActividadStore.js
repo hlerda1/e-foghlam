@@ -10,9 +10,11 @@ import efoghlamApi from '../api/efoghlamApi';
 import { convertEventsToDateEvents } from '../helpers/convertEventsToDateEvents';
 import Swal from 'sweetalert2';
 
+
 export const useActividadStore = () => {
   const dispatch = useDispatch();
-//   const { actividades, activeActividad } = useSelector((state) => state.actividad);
+  const { actividades, activeActividad } = useSelector((state) => state.actividad);
+  // const { actividades } = useSelector((state) => state);
   const setActiveActividad = (newActividad) => {
     dispatch(onSetActiveActividad(newActividad));
   };
@@ -27,16 +29,17 @@ export const useActividadStore = () => {
       }
       const { data } = await efoghlamApi.post('/actividad', newActividad);
       console.log(data);
-      dispatch(onAddNewActividad({ ...newActividad, _id: data.evento._id }));
+      dispatch(onAddNewActividad({ ...newActividad, _id: data.actividad._id }));
     } catch (error) {
       console.log(error);
       Swal.fire('Error al guardar', error.response.data.msg, 'error');
     }
   };
 
-  const startDeletingActividad = async () => {
+  const startDeletingActividad = async (selectedActividad) => {
+    // console.log(selectedActividad)
     try {
-      await efoghlamApi.delete(`/actividad/${activeActividad._id}`);
+      await efoghlamApi.delete(`/actividad/${selectedActividad._id}`);
       dispatch(onDeleteActividad());
     } catch (error) {
       console.log(error);
@@ -48,8 +51,9 @@ export const useActividadStore = () => {
   const startLoadingActividades = async () => {
     try {
       const { data } = await efoghlamApi.get('/actividad');
-      const actividades = convertEventsToDateEvents(data.actividades);
+      const actividades = (data.actividades);      
       dispatch(onLoadActividades(actividades));
+      console.log(actividades)
     } catch (error) {
       console.log('Error al cargar eventos');
       console.log(error);
@@ -58,7 +62,7 @@ export const useActividadStore = () => {
 
   return {
     // activeEvent,
-    // actividades,
+    actividades,
     // hasActividadSelected: !!activeActividad,
 
     startDeletingActividad,

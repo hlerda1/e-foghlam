@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState, Component } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { useUiStore } from '../../../hooks/useUiStore';
 import { getActividad } from '../../../helpers/getActividad';
 import { getAlumno } from '../../../helpers/getAlumno';
+import { useActividadStore } from '../../../hooks/useActividadStore';
 
 const customStyles = {
   content: {
@@ -21,6 +22,7 @@ Modal.setAppElement('#root');
 export const ActividadModal = () => {
   const { isActModalOpen, closeActModal } = useUiStore();
   const [alumnoSeleccion, setAlumnoSeleccion] = useState([]);
+  const { activeActividad, startSavingActividad } = useActividadStore();
   const [actividadSeleccion, setActividadSeleccion] = useState([]);
   const [cargarActividad, setCargarActividad] = useState([]);
 
@@ -29,13 +31,7 @@ export const ActividadModal = () => {
     tipoActividad: '',
     fechaFin: '',
     consigna: '',
-    alumnos: [ 
-        { 
-            idAlumno:'',
-            estado:'',
-            respuesta:''
-        } 
-    ],
+    alumnos: [],
   });
 
   const [alumno, setAlumno] = useState({
@@ -47,6 +43,12 @@ export const ActividadModal = () => {
     fechaNacimiento: '',
     rol: '',
   });
+
+  // useEffect(() => {
+  //   if (activeActividad !== null) {
+  //     setActividad({ ...activeActividad });
+  //   }
+  // }, [activeActividad]);
 
   const getAlumnos = async () => {
     const newAlumnos = await getAlumno();
@@ -76,18 +78,42 @@ export const ActividadModal = () => {
 
   //checkbox to array
   const handleCheckboxChange = event => {
-    let newArray = [...actividad.alumnos, event.target.id];
-    if (actividad.alumnos.includes(event.target.id)) {
-      newArray = newArray.filter(x => x !== event.target.id);
-    } 
-    this.setActividad({
-      alumnos: { id: newArray, estado:'pendiente',respuesta:''}
-    });
+    let newObj = {"idAlumno":event.target.value, "estado":"pendiente", "respuesta":""};
+    if (event.target.checked) {
+      actividad.alumnos.push(newObj)
+    } else {
+      actividad.alumnos = actividad.alumnos.filter(function (filtObj) {
+        return filtObj.idAlumno !== newObj.idAlumno;
+      });
+    }
     console.log(actividad)
   };
 
 
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    // setFormSubmitted(true);
+
+    // const difference = differenceInSeconds(formValues.end, formValues.start);
+    // if (isNaN(difference) || difference <= 0) {
+    //   Swal.fire('Fechas incorrectas', 'Revisar las fechas ingresadas', 'error');
+    //   return;
+    // }
+
+    // if (formValues.title.length <= 0) return;
+    // console.log(formValues);
+
+    await startSavingActividad(actividad);
+    closeActModal();
+    // setFormSubmitted(false);
+  };
+
   const onCloseModal = () => {
+      actividad.descripcion = '';
+      actividad.tipoActividad = '';
+      actividad.fechaFin = '';
+      actividad.consigna = '';
+      actividad.alumnos = [];
       closeActModal();
     };
 
@@ -120,7 +146,7 @@ export const ActividadModal = () => {
                 className='box p-3 mb-3 mt-5'
                 style={{ border: '1px solid #d0d0d0' }}
             >
-              <form onSubmit={null}>
+              <form onSubmit={onSubmit}>
                 <h5 className='mb-3 '>Agregar Actividad</h5>
                 <div className='form-group'>
                     <input type='text' 
@@ -176,7 +202,7 @@ export const ActividadModal = () => {
                   <tr key={alumno}>
                   <td>{alumno.nombre} {alumno.apellido}</td>
                   <td>
-                      <input class="form-check-input" type="checkbox" value={alumno._id} id="alumnoCheckbox" onChange={handleCheckboxChange}></input>
+                      <input class="form-check-input" type="checkbox" value={alumno._id} name="idAlumno" onChange={handleCheckboxChange}></input>
                   </td>
                   </tr>
                 ))}

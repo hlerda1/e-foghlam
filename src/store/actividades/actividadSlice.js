@@ -27,7 +27,7 @@ export const actividadSlice = createSlice({
     onDeleteActividad: (state) => {
       if (state.activeActividad) {
         state.actividades = state.actividades.filter(
-          (actividad) => actividad.id !== state.activeActividad.id
+          (actividad) => actividad._id !== state.activeActividad._id
         );
         state.activeActividad = null;
       }
@@ -36,7 +36,7 @@ export const actividadSlice = createSlice({
     onLoadActividades: (state, { payload = [] }) => {
       state.iLoadingActividad = false;
       payload.forEach((actividad) => {
-        const exists = state.actividades.some((dbactividad) => dbactividad.id === actividad.id);
+        const exists = state.actividades.some((dbactividad) => dbactividad._id === actividad._id);
         if (!exists) {
           state.actividades.push(actividad);
         }
