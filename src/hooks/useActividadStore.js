@@ -36,10 +36,10 @@ export const useActividadStore = () => {
     }
   };
 
-  const startDeletingActividad = async (selectedActividad) => {
-    // console.log(selectedActividad)
+  const startDeletingActividad = async () => {
+    console.log(activeActividad)
     try {
-      await efoghlamApi.delete(`/actividad/${selectedActividad._id}`);
+      await efoghlamApi.delete(`/actividad/${activeActividad._id}`);
       dispatch(onDeleteActividad());
     } catch (error) {
       console.log(error);
@@ -61,7 +61,7 @@ export const useActividadStore = () => {
   };
 
   return {
-    // activeEvent,
+    activeActividad,
     actividades,
     // hasActividadSelected: !!activeActividad,
 

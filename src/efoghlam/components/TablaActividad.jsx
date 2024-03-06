@@ -5,10 +5,11 @@ import { useEffect, useState } from 'react';
 // import efoghlamApi from '../../../api/efoghlamApi';
 import Swal from 'sweetalert2';
 import { useActividadStore } from '../../hooks/useActividadStore';
+import { FabAddNewAct } from './FabAddNewAct';
 
 export const TablaActividad = () => {
     const [cargarActividad, setCargarActividad] = useState([]);
-    const { actividades, startDeletingActividad, startLoadingActividades } = useActividadStore();
+    const { actividades, startDeletingActividad, startLoadingActividades, setActiveActividad } = useActividadStore();
 
     const [actividad, setActividad] = useState({
         descripcion: '',
@@ -45,9 +46,10 @@ export const TablaActividad = () => {
       };
 
       const handleDelete = (e) => {
+
+        setActiveActividad(e);
         console.log(e)
-        // setActiveActividad(e);
-        startDeletingActividad(e);
+        startDeletingActividad();
       };
 
     return (
@@ -101,7 +103,7 @@ export const TablaActividad = () => {
                                         'Do you really want to delete ' + actividad.descripcion
                                         );
                                         if (confirmBox === true) {
-                                        handleDelete(actividad);
+                                            handleDelete(actividad);
                                         }
                                     }}
                                     >
