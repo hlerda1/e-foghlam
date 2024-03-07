@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { onCloseDateModal, onOpenDateModal, onOpenActModal, onCloseActModal } from '../store/ui/uiSlice';
+import { onCloseDateModal, onOpenDateModal, onOpenActModal, onCloseActModal, onCloseComModal, onOpenComModal } from '../store/ui/uiSlice';
 
 // useSelector para acceder al state, al useSlice
 export const useUiStore = () => {
   // desestructurar la unica propiedad
   const { isDateModalOpen } = useSelector((state) => state.ui);
   const { isActModalOpen } = useSelector((state) => state.ui);
+  const { isComModalOpen } = useSelector((state) => state.ui);
   const dispatch = useDispatch();
 
   // metodo para abrir el Modal de Calendario
@@ -18,7 +19,7 @@ export const useUiStore = () => {
     dispatch(onCloseDateModal());
   };
 
-   // metodo para abrir el Modal de Activida
+   // metodo para abrir el Modal de Actividad
   // despachas el reducer
   const openActModal = () => {
     dispatch(onOpenActModal());
@@ -28,6 +29,16 @@ export const useUiStore = () => {
     dispatch(onCloseActModal());
   };
 
+   // metodo para abrir el Modal de Actividad
+  // despachas el reducer
+  const openComModal = () => {
+    dispatch(onOpenComModal());
+  };
+
+  const closeComModal = () => {
+    dispatch(onCloseComModal());
+  };
+
   // retornar propiedades y metodos definidos
   return {
     isDateModalOpen,
@@ -35,6 +46,9 @@ export const useUiStore = () => {
     closeDateModal,
     isActModalOpen,
     openActModal,
-    closeActModal
+    closeActModal,
+    isComModalOpen,
+    openComModal,
+    closeComModal,
   };
 };

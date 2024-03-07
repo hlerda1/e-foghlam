@@ -1,11 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import {
     onSetActiveComision,
-    onAddNewActividad,
-    onUpdateActividad,
-    onDeleteActividad,
-    onLoadActividades,
+    onAddNewComision,
     onUpdateComision,
+    onDeleteComision,
+    onLoadComisiones,
 } from '../store/comisiones/comisionSlice';
 import efoghlamApi from '../api/efoghlamApi';
 import Swal from 'sweetalert2';
@@ -49,7 +48,7 @@ export const useComisionStore = () => {
   //Posiblemente no se necesite al ser para convertir eventos.
   const startLoadingComisiones = async () => {
     try {
-      const { data } = await efoghlamApi.get('/actividad');
+      const { data } = await efoghlamApi.get('/comision');
       const comisiones = (data.comisiones);      
       dispatch(onLoadComisiones(comisiones));
       console.log(comisiones)
