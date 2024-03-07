@@ -1,10 +1,17 @@
-import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+import { addHours, differenceInSeconds } from 'date-fns';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import es from 'date-fns/locale/es';
+import { useMemo } from 'react';
 import { useUiStore } from '../../../hooks/useUiStore';
-import { getActividad } from '../../../helpers/getActividad';
-import { getAlumno } from '../../../helpers/getAlumno';
 import { useActividadStore } from '../../../hooks/useActividadStore';
+import { getAlumno } from '../../../helpers/getAlumno';
+
+registerLocale('es', es);
 
 const customStyles = {
   content: {
@@ -19,37 +26,24 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
+// funcion para manejar formulario
 export const ActividadModal = () => {
   const { isActModalOpen, closeActModal } = useUiStore();
-  const [alumnoSeleccion, setAlumnoSeleccion] = useState([]);
   const { activeActividad, startSavingActividad } = useActividadStore();
-  const [actividadSeleccion, setActividadSeleccion] = useState([]);
-  const [cargarActividad, setCargarActividad] = useState([]);
+  const [isOpen, setIsOpen] = useState(true);
+  const [alumnoSeleccion, setAlumnoSeleccion] = useState([]);
 
-  const [actividad, setActividad] = useState({
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  const [formValues, setFormValues] = useState({
     descripcion: '',
     tipoActividad: '',
-    fechaFin: '',
+    fechaFin: new Date(),
     consigna: '',
     alumnos: [],
   });
 
-  const [alumno, setAlumno] = useState({
-    _id: '',
-    nombre: '',
-    apellido: '',
-    email: '',
-    dni: '',
-    fechaNacimiento: '',
-    rol: '',
-  });
-
-  // useEffect(() => {
-  //   if (activeActividad !== null) {
-  //     setActividad({ ...activeActividad });
-  //   }
-  // }, [activeActividad]);
-
+  //Obtener Alumnos
   const getAlumnos = async () => {
     const newAlumnos = await getAlumno();
     // console.log(newAlumnos);
@@ -59,40 +53,54 @@ export const ActividadModal = () => {
     getAlumnos();
   }, []);
 
-  const getActividades = async () => {
-    const newActividades = await getActividad();
-    // console.log(newActividades);
-    setCargarActividad(newActividades);
-  };
+  // el valor se va a memorizar si el titulo cambia o si el formSubmitted cambia
+  const titleClass = useMemo(() => {
+    if (!formSubmitted) return '';
+    return formValues.descripcion.length > 0 ? '' : ' is-invalid';
+  }, [formValues.descripcion, formSubmitted]);
+
   useEffect(() => {
-    getActividades();
-  }, []); 
-  
-  const { descripcion, tipoActividad, fechaFin, consigna, alumnos } = actividad;
-  const { nombre, apellido, email, dni, fechaNacimiento, rol } = alumno;
-  
-  const onInputChange = (e) => {
-    setActividad({ ...actividad, [e.target.name]: e.target.value });
-    setAlumno({...alumno, [e.target.name]: e.target.value })
+    if (activeActividad !== null) {
+      setFormValues({ ...activeActividad });
+    }
+  }, [activeActividad]);
+
+  // para solo sobrescribir el valor del  target
+  const onInputChanged = ({ target }) => {
+    setFormValues({
+      ...formValues,
+      [target.name]: target.value,
+    });
   };
 
-  //checkbox to array
+  const onDateChanged = (event, changing) => {
+    setFormValues({
+      ...formValues,
+      [changing]: event,
+    });
+  };
+
+  const onCloseModal = () => {
+    closeActModal();
+  };
+
   const handleCheckboxChange = event => {
     let newObj = {"idAlumno":event.target.value, "estado":"pendiente", "respuesta":""};
     if (event.target.checked) {
-      actividad.alumnos.push(newObj)
+      formValues.alumnos.push(newObj)
+      // setFormValues( [...formValues.alumnos, {"idAlumno":event.target.value, "estado":"pendiente", "respuesta":""} ] );
     } else {
-      actividad.alumnos = actividad.alumnos.filter(function (filtObj) {
+      formValues.alumnos = formValues.alumnos.filter(function (filtObj) {
         return filtObj.idAlumno !== newObj.idAlumno;
       });
     }
-    console.log(actividad)
+    console.log(formValues)
   };
 
-
   const onSubmit = async (event) => {
+    console.log(formValues)
     event.preventDefault();
-    // setFormSubmitted(true);
+    setFormSubmitted(true);
 
     // const difference = differenceInSeconds(formValues.end, formValues.start);
     // if (isNaN(difference) || difference <= 0) {
@@ -100,67 +108,55 @@ export const ActividadModal = () => {
     //   return;
     // }
 
-    // if (formValues.title.length <= 0) return;
-    // console.log(formValues);
+    if (formValues.descripcion.length <= 0) return;
+    console.log(formValues);
 
-    await startSavingActividad(actividad);
+    await startSavingActividad(formValues);
     closeActModal();
-    // setFormSubmitted(false);
+    setFormSubmitted(false);
   };
 
-  const onCloseModal = () => {
-      actividad.descripcion = '';
-      actividad.tipoActividad = '';
-      actividad.fechaFin = '';
-      actividad.consigna = '';
-      actividad.alumnos = [];
-      closeActModal();
-    };
-
-      return (
-        <Modal
-        isOpen={isActModalOpen}
-        onRequestClose={onCloseModal}
-        style={customStyles}
-        className='modal'
-        overlayClassName='modal-fondo'
-        closeTimeoutMS={200
-        }>
-
-          <h1>
-          {' '}
-          Nueva Actividad
-          <button
-            className='btn btn-outline-danger btn-block'
-            onClick={onCloseModal}
-            style={{ marginLeft: '15px' }}
-          >
-            <i className='far fa-save'></i>
-            <span> Cancelar</span>
-          </button>          
-          </h1>  
-
-        <div className='row mt-3'>
+  return (
+    <Modal
+    isOpen={isActModalOpen}
+    onRequestClose={onCloseModal}
+    style={customStyles}
+    className='modal'
+    overlayClassName='modal-fondo'
+    closeTimeoutMS={200}
+    >
+      <h1>
+        {' '}
+        Nuevo Actividad
+        <button
+          className='btn btn-outline-danger btn-block'
+          onClick={onCloseModal}
+          style={{ marginLeft: '15px' }}
+        >
+          <i className='far fa-save'></i>
+          <span> Cancelar</span>
+        </button>
+      </h1>
+      <hr />
+      <div className='row mt-3'>
           <div className='col-sm-4'>
-            <div
-                className='box p-3 mb-3 mt-5'
-                style={{ border: '1px solid #d0d0d0' }}
-            >
+            <div className='box p-3 mb-3 mt-5' style={{ border: '1px solid #d0d0d0' }}>
+
               <form onSubmit={onSubmit}>
                 <h5 className='mb-3 '>Agregar Actividad</h5>
                 <div className='form-group'>
                     <input type='text' 
                         className='form-control  mb-4' 
                         name='descripcion' 
-                        value={descripcion} 
-                        onChange={(e) => onInputChange(e)} 
+                        value={formValues.descripcion} 
+                        onChange={onInputChanged} 
                         placeholder='Descripción de la Actividad' 
                         required='' 
                     />
                     <select 
                         className='form-control mb-4' 
-                        name='tipoActividad' value={tipoActividad} 
-                        onChange={(e) => onInputChange(e)}>
+                        name='tipoActividad' value={formValues.tipoActividad} 
+                        onChange={onInputChanged}>
                             <option value="">Seleccione tipo de actividad</option>
                             <option value="examen">Examen</option>
                             <option value="trabajoPractico">Trabajo Práctico</option>
@@ -169,14 +165,14 @@ export const ActividadModal = () => {
                     <input type="date" 
                         className='form-control  mb-4' 
                         name='fechaFin' 
-                        value={fechaFin} 
-                        onChange={(e) => onInputChange(e)}  
+                        value={formValues.fechaFin} 
+                        onChange={onInputChanged}  
                         required='' />
                     <textarea type='text' 
                         className='form-control  mb-4' 
                         name='consigna' 
-                        value={consigna} 
-                        onChange={(e) => onInputChange(e)} 
+                        value={formValues.consigna} 
+                        onChange={onInputChanged} 
                         placeholder='Consigna' 
                         required='' 
                     />
@@ -199,7 +195,9 @@ export const ActividadModal = () => {
             </thead>
             <tbody>
               {alumnoSeleccion.map((alumno) => (
-                  <tr key={alumno}>
+                  <tr 
+                    key={alumno}
+                  >
                   <td>{alumno.nombre} {alumno.apellido}</td>
                   <td>
                       <input class="form-check-input" type="checkbox" value={alumno._id} name="idAlumno" onChange={handleCheckboxChange}></input>
@@ -210,6 +208,6 @@ export const ActividadModal = () => {
           </table>
         </div>
         </div>
-        </Modal>
-      )
-}
+    </Modal>
+  );
+};

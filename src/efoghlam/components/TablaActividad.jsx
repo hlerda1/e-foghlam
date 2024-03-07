@@ -53,6 +53,7 @@ export const TablaActividad = () => {
       };
 
     return (
+        <>
         <section>
             <div className='container'>
                 <h4 className='mb-3 text-center mt-4'>Actividades</h4>
@@ -127,8 +128,7 @@ export const TablaActividad = () => {
                         </div>
                     </div>
                 </div>
-
         </section>
-
+    </>                              
     ) 
 }

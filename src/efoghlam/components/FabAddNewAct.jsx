@@ -1,4 +1,4 @@
-import { addHours } from 'date-fns';
+// import { addHours } from 'date-fns';
 import { useActividadStore } from '../../hooks/useActividadStore';
 import { useUiStore } from '../../hooks/useUiStore';
 
@@ -8,8 +8,6 @@ export const FabAddNewAct = () => {
 
   const handleClickNew = () => {
     setActiveActividad({
-      bgColor: '#fafafa',
-    
       descripcion: '',
       tipoActividad: '',
       fechaFin: '',
