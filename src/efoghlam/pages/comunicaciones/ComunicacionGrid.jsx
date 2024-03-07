@@ -3,11 +3,17 @@ import { getComunicacion } from '../../../helpers/getComunicacion';
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../../../hooks/useAuthStore';
 import Accordion from 'react-bootstrap/Accordion';
+import { AgregarComunicacion } from './AgregarComunicacion';
+import './AgregarComunicacion.css';
 //import { getUsuario } from '../../../helpers/getUsuario';
 
 export const ComunicacionGrid = () => {
   const [cargarComunicacion, setCargarComunicacion] = useState([]);
   const [cargarRemitente, setCargarRemitente] = useState([]);
+  const [comunicacion, setComunicacion] = useState(false);
+  const [disableButton, setDisableButton] = useState(false);
+
+  const toggle = () => setComunicacion(!comunicacion);
   const { user } = useAuthStore();
   const idDestinatario = user.uid;
 
@@ -17,6 +23,20 @@ export const ComunicacionGrid = () => {
     console.log(newComunicaciones);
     setCargarComunicacion(newComunicaciones);
   };
+
+  let x;
+  let currentUserRole;
+  if (localStorage.getItem('user')) {
+    currentUserRole = JSON.parse(localStorage.getItem('user'));
+  }
+
+  if (currentUserRole === 'alumno') {
+    x = true;
+  }
+
+  useEffect(() => {
+    setDisableButton(x);
+  }, []);
 
   // const getRemNombre = async () => {
   //   const newRemNombre = await getUsuario(idRemitente);
@@ -30,7 +50,19 @@ export const ComunicacionGrid = () => {
 
   return (
     <>
-      <h1>Mensajes</h1>
+      <div className='header text-center'>
+        <h3>Mensajes</h3>
+        <button
+          className='btn btn-primary mt-2'
+          onClick={() => setComunicacion(true)}
+          disabled={disableButton}
+        >
+          Crear Mensaje
+        </button>
+      </div>
+      <div className='task-container'></div>
+      <AgregarComunicacion toggle={toggle} comunicacion={comunicacion} />
+
       <table className='table table-hover  table-striped table-bordered ml-4 '>
         <thead>
           <tr>
