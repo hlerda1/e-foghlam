@@ -84,9 +84,14 @@ export const ComisionModal = () => {
   };
 
   const handleCheckboxChange = event => {
+        
+    const newObj = alumnoSeleccion.find(({ _id }) => _id === event.target.value);
+
+    console.log(event.target.value)
+    
     if (event.target.checked) {
-      formValues.alumnos.push(event.target.value)
-      // setFormValues( [...formValues.alumnos, {"idAlumno":event.target.value, "estado":"pendiente", "respuesta":""} ] );
+      formValues.alumnos.push(newObj)
+      // setFormValues( {...formValues, alumnos: [newObj] } );
     } else {
       formValues.alumnos = formValues.alumnos.filter(function (filtObj) {
         return filtObj.idAlumno !== newObj.idAlumno;
@@ -136,11 +141,12 @@ export const ComisionModal = () => {
         </button>
       </h1>
       <hr />
+      <form onSubmit={onSubmit}>
       <div className='row mt-3'>
           <div className='col-sm-4'>
             <div className='box p-3 mb-3 mt-5' style={{ border: '1px solid #d0d0d0' }}>
 
-              <form onSubmit={onSubmit}>
+              
                 <h5 className='mb-3 '>Agregar Comision</h5>
                 <div className='form-group'>
                     <input type='text' 
@@ -181,7 +187,7 @@ export const ComisionModal = () => {
                             Crear Comision
                     </button>
                 </div>
-            </form>
+            
           </div>
         </div>
         <div className='col-sm-8'>
@@ -195,11 +201,11 @@ export const ComisionModal = () => {
             <tbody>
               {alumnoSeleccion.map((alumno) => (
                   <tr 
-                    key={alumno}
+                    key={alumno.alumno}
                   >
                   <td>{alumno.nombre} {alumno.apellido}</td>
                   <td>
-                      <input class="form-check-input" type="checkbox" value={alumno} name="Alumno" onChange={handleCheckboxChange}></input>
+                      <input class="form-check-input" type="checkbox" value={alumno._id} name="Alumno" onChange={handleCheckboxChange}></input>
                   </td>
                   </tr>
                 ))}
@@ -207,6 +213,7 @@ export const ComisionModal = () => {
           </table>
         </div>
         </div>
+        </form>
     </Modal>
   );
 };

@@ -91,7 +91,7 @@ export const TablaActividad = () => {
                             </thead>
                             <tbody>
                             {actividades.map((actividad) => (
-                                <tr key={actividad}>
+                                <tr key={actividad.actividad}>
                                 <td>{actividad.descripcion}</td>
                                 <td>{actividad.tipoActividad}</td>
                                 <td>{actividad.fechaFin}</td>

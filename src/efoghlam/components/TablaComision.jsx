@@ -59,7 +59,7 @@ export const TablaComision = () => {
                         </thead>
                         <tbody>
                         {comisiones.map((comision) => (
-                            <tr key={comision}>
+                            <tr key={comision.comision}>
                             <td>{comision.nombre}</td>
                             <td>{comision.año}</td>
                             <td>{comision.turno}</td>

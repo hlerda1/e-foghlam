@@ -99,7 +99,7 @@ export const AgregarComunicacion = ({ comunicacion, toggle }) => {
                 <thead></thead>
                 <tbody>
                   {alumnoSeleccion.map((alumno) => (
-                    <tr key={alumno}>
+                    <tr key={alumno.alumno}>
                       <td>
                         {alumno.nombre} {alumno.apellido}
                       </td>

@@ -76,7 +76,7 @@ export const ComunicacionGrid = () => {
         </thead>
         <tbody>
           {cargarComunicacion.map((comunicacion) => (
-            <tr key={comunicacion}>
+            <tr key={comunicacion.comunicacion}>
               <td>{comunicacion.titulo}</td>
               <td>{comunicacion.idRemitente}</td>
 
