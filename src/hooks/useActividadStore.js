@@ -7,7 +7,7 @@ import {
     onLoadActividades,
 } from '../store/actividades/actividadSlice';
 import efoghlamApi from '../api/efoghlamApi';
-import { convertEventsToDateEvents } from '../helpers/convertEventsToDateEvents';
+import { filtrarActividadAlumno } from '../helpers/filtrarActividadAlumno';
 import Swal from 'sweetalert2';
 
 
@@ -60,6 +60,20 @@ export const useActividadStore = () => {
     }
   };
 
+  const startLoadingActividadesAlumno = async (id) => {
+    try {
+      const { data } = await efoghlamApi.get('/actividad');
+      const actividades = filtrarActividadAlumno(data.actividades, id);
+      // const actividades = (data.actividades);    
+
+      console.log(actividades);
+      dispatch(onLoadActividades(actividades));
+    } catch (error) {
+      console.log('Error al cargar Actividades');
+      console.log(error);
+    }
+  };
+
   return {
     activeActividad,
     actividades,
@@ -69,5 +83,6 @@ export const useActividadStore = () => {
     setActiveActividad,
     startSavingActividad,
     startLoadingActividades,
+    startLoadingActividadesAlumno
   };
 };

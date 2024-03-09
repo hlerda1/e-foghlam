@@ -83,22 +83,31 @@ export const ComisionModal = () => {
     closeComModal();
   };
 
-  const handleCheckboxChange = event => {
-        
-    const newObj = alumnoSeleccion.find(({ _id }) => _id === event.target.value);
-
-    console.log(event.target.value)
-    
+  const handleCheckboxChange = event => {        
+    const newObj = alumnoSeleccion.find(({ _id }) => _id === event.target.value);    
     if (event.target.checked) {
-      formValues.alumnos.push(newObj)
+      formValues.alumnos.push(newObj);   
       // setFormValues( {...formValues, alumnos: [newObj] } );
+      // setFormValues( [...alumnos, newObj ] );
+      // setFormValues({...formValues, alumnos: [...formValues.alumnos, newObj]})
+      console.log(formValues)
     } else {
       formValues.alumnos = formValues.alumnos.filter(function (filtObj) {
         return filtObj.idAlumno !== newObj.idAlumno;
       });
-    }
-    console.log(formValues)
+    }    
   };
+
+  // handleCheckboxChange = event => {
+  //   const newObj = alumnoSeleccion.find(({ _id }) => _id === event.target.value);
+  //   let newArray = [...formValues.alumnos, newObj];
+  //   if (formValues.alumnos.includes(newObj)) {
+  //     newArray = newArray.filter(alumno => alumno !== newObj);
+  //   } 
+  //   setFormValues({
+  //     alumnos: newArray
+  //   });
+  // };
 
   const onSubmit = async (event) => {
     console.log(formValues)

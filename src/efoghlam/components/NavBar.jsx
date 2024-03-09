@@ -60,6 +60,7 @@ export const NavBar = () => {
               Calendario
             </NavLink>
 
+            {show ? (
             <NavLink
               className={({ isActive }) =>
                 `nav-link ${isActive ? 'active' : ''}`
@@ -68,6 +69,7 @@ export const NavBar = () => {
             >
               Actividades
             </NavLink>
+            ) : null}
 
             <NavLink
               className={({ isActive }) =>
