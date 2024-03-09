@@ -17,7 +17,6 @@ import { Comunicaciones } from '../efoghlam/pages/Comunicaciones.jsx';
 // import { Comisiones } from '../efoghlam/pages/Comisiones.jsx';
 // import { Actividades } from '../efoghlam/pages/Actividades.jsx';
 
-//Este componente contiene las otras rutas, las de los modulos auth y efoghlam
 export const AppRouter = () => {
   const { status, checkAuthToken } = useAuthStore();
 

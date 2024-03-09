@@ -3,6 +3,7 @@ import { userRoles } from '../data/userRole';
 import { Comisiones } from '../efoghlam/pages/Comisiones';
 import { Calendario } from '../efoghlam/pages/Calendario';
 import { Actividades } from '../efoghlam/pages/Actividades';
+import { Comunicaciones } from '../efoghlam/pages/Comunicaciones';
 
 export const docente_route = [
   {
@@ -25,6 +26,12 @@ export const docente_route = [
   {
     path: '/calendario',
     ele: <Calendario />,
-    availability: [userRoles.docente],
+    //availability: [userRoles.docente],
+  },
+
+  {
+    path: '/comunicaciones',
+    ele: <Comunicaciones />,
+    //availability: [userRoles.docente],
   },
 ];

@@ -39,7 +39,7 @@ export const useAuthStore = () => {
     email,
     password,
     rol,
-}) => {
+  }) => {
     dispatch(onChecking());
     console.log({ email, password });
     //2 respuestas
@@ -71,13 +71,13 @@ export const useAuthStore = () => {
       return dispatch(onLogout('token expirado'));
     }
     try {
-      const { data } = await efoghlamApi.post('/auth/renew');
+      const { data } = await efoghlamApi.get('/auth/renew');
       console.log(data);
       localStorage.setItem('token', data.token);
       localStorage.setItem('token-init-date', new Date().getTime());
       dispatch(onLogin({ nombre: data.nombre, uid: data.uid }));
     } catch (error) {
-      localStorage.clear();
+      //localStorage.clear();
       dispatch(onLogout());
     }
   };
