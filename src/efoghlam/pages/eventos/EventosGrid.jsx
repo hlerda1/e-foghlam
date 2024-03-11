@@ -1,6 +1,6 @@
 import { Calendar } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { localizer } from '../../../helpers/CalendarLocalizer';
+import { localizer } from '../../../helpers/calendarLocalizer';
 import { getMessagesES } from '../../../helpers/getMessages';
 import { Evento } from './Evento';
 import { useEffect, useState } from 'react';
