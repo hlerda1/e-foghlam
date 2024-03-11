@@ -4,6 +4,18 @@ import efoghlamApi from '../../../api/efoghlamApi';
 import { getAlumno } from '../../../helpers/getAlumno';
 import Swal from 'sweetalert2';
 
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    width: '500px'
+  },
+};
+
 export const AgregarComunicacion = ({ comunicacion, toggle }) => {
   const [alumnoSeleccion, setAlumnoSeleccion] = useState([]);
 
@@ -57,7 +69,9 @@ export const AgregarComunicacion = ({ comunicacion, toggle }) => {
   }, []);
 
   return (
-    <Modal isOpen={comunicacion} toggle={toggle}>
+    <Modal isOpen={comunicacion} toggle={toggle} style={customStyles}
+    className='modal'
+    overlayClassName='modal-fondo'>
       <ModalHeader toggle={toggle}>Crear Mensaje</ModalHeader>
       <ModalBody>
         <form onSubmit={addMensajes}>

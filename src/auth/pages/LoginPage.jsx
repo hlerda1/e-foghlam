@@ -26,6 +26,7 @@ const registerFormFields = {
 
 export const LoginPage = () => {
   const { startLogin, errorMessage, user, startRegister } = useAuthStore();
+  const [show, setShow] = useState(false);
   // estado inicial es loginFormFields  
   const {
     loginEmail,
@@ -58,6 +59,16 @@ export const LoginPage = () => {
     onInputChange: onRegisterInputChange,
     // poner cada register en cada campo con onRegisterInputChange
   } = useForm(registerFormFields);
+
+  // const showRegister = () => {
+  //   if (show=true){
+  //     setShow(false)
+  //   }
+  //   else if (show=false){
+  //     setShow(true)
+  //   }
+  //   }
+  // }
 
   //
   const registerSubmit = (event) => {
@@ -140,10 +151,12 @@ export const LoginPage = () => {
 
             <div className='form-group mb-2'>
               <input type='submit' className='btnSubmit' value='Login' />
+              <input type='button' className='btnSubmit' value='Registrar' onClick={()=>setShow(true)}/>
             </div>
           </form>
         </div>
 
+        {show ? (
         <div className='col-md-6 login-form-2'>
           <h3>Registro</h3>
           <form onSubmit={registerSubmit}>
@@ -238,6 +251,7 @@ export const LoginPage = () => {
             </div>
           </form>
         </div>
+        ) : null}
       </div>
     </div>
   );

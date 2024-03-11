@@ -50,6 +50,9 @@ export const ComunicacionGrid = () => {
 
   return (
     <>
+      
+
+      <div className='container'>
       <div className='header text-center'>
         <h3>Mensajes</h3>
         <button
@@ -62,63 +65,67 @@ export const ComunicacionGrid = () => {
       </div>
       <div className='task-container'></div>
       <AgregarComunicacion toggle={toggle} comunicacion={comunicacion} />
+        <div className='mb-3 text-center mt-4'>
+          <div className=''>
+          <table className='table table-hover  table-striped table-bordered ml-4 '>
+            <thead>
+              <tr>
+                <th>Titulo</th>
+                <th>Remitente</th>
+                <th>Mensaje</th>
+                <th>Fecha</th>
+                {/* <th>Destinatarios</th> */}
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cargarComunicacion.map((comunicacion) => (
+                <tr key={comunicacion.comunicacion}>
+                  <td>{comunicacion.titulo}</td>
+                  <td>{comunicacion.idRemitente}</td>
 
-      <table className='table table-hover  table-striped table-bordered ml-4 '>
-        <thead>
-          <tr>
-            <th>Titulo</th>
-            <th>Remitente</th>
-            <th>Mensaje</th>
-            <th>Fecha</th>
-            {/* <th>Destinatarios</th> */}
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cargarComunicacion.map((comunicacion) => (
-            <tr key={comunicacion.comunicacion}>
-              <td>{comunicacion.titulo}</td>
-              <td>{comunicacion.idRemitente}</td>
+                  <Accordion>
+                    <Accordion.Item eventKey='0'>
+                      <Accordion.Header>
+                        {comunicacion.cuerpo.substring(0, 15) + '...'}
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        <td>{comunicacion.cuerpo}</td>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                  <td>{comunicacion.fecha}</td>
 
-              <Accordion>
-                <Accordion.Item eventKey='0'>
-                  <Accordion.Header>
-                    {comunicacion.cuerpo.substring(0, 15) + '...'}
-                  </Accordion.Header>
-                  <Accordion.Body>
-                    <td>{comunicacion.cuerpo}</td>
-                  </Accordion.Body>
-                </Accordion.Item>
-              </Accordion>
-              <td>{comunicacion.fecha}</td>
+                  {/* <td>{comunicacion.destinatarios}</td> */}
+                  <td>
+                    <Link
+                      className='text-danger mr-2'
+                      onClick={() => {
+                        const confirmBox = window.confirm(
+                          'Do you really want to delete ' + name.first_name
+                        );
+                        // if (confirmBox === true) {
+                        //   deleteRecord(name.id);
+                        // }
+                      }}
+                    >
+                      <i
+                        className='far fa-trash-alt'
+                        style={{ fontSize: '18px', marginRight: '5px' }}
+                      ></i>
+                    </Link>
 
-              {/* <td>{comunicacion.destinatarios}</td> */}
-              <td>
-                <Link
-                  className='text-danger mr-2'
-                  onClick={() => {
-                    const confirmBox = window.confirm(
-                      'Do you really want to delete ' + name.first_name
-                    );
-                    // if (confirmBox === true) {
-                    //   deleteRecord(name.id);
-                    // }
-                  }}
-                >
-                  <i
-                    className='far fa-trash-alt'
-                    style={{ fontSize: '18px', marginRight: '5px' }}
-                  ></i>
-                </Link>
-
-                <Link className=' mr-2' to={`/EditEmployee/editID/${name.id}`}>
-                  <i className='fa fa-edit' aria-hidden='true'></i>
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                    <Link className=' mr-2' to={`/EditEmployee/editID/${name.id}`}>
+                      <i className='fa fa-edit' aria-hidden='true'></i>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
