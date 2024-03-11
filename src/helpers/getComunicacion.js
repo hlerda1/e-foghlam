@@ -1,8 +1,7 @@
 import efoghlamApi from '../api/efoghlamApi';
 
 export const getComunicacion = async (idDestinatario) => {
-  const response = await efoghlamApi.get(
-    `http://localhost:4000/api/mensaje/?destinatarios=${idDestinatario}`
+  const response = await efoghlamApi.get(`/mensaje/?destinatarios=${idDestinatario}`
   );
 
   const mensajes = response.data.mensajes.map((comunicacion) => ({

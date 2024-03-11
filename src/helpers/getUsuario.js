@@ -1,8 +1,7 @@
 import efoghlamApi from '../api/efoghlamApi';
 
 export const getUsuario = async (idUsuario) => {
-  const response = await efoghlamApi.get(
-    `http://localhost:4000/auth/api/usuario/?_id=${idUsuario}`
+  const response = await efoghlamApi.get(`/auth/usuario/?_id=${idUsuario}`
   );
 
   const usuario = response.data.usuario.map((usuario) => ({

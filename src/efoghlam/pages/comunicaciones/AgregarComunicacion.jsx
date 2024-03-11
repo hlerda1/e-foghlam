@@ -51,7 +51,7 @@ export const AgregarComunicacion = ({ comunicacion, toggle }) => {
     console.log(e.target.value);
     e.preventDefault();
     e.target.reset();
-    await efoghlamApi.post('http://localhost:4000/api/mensaje', message);
+    await efoghlamApi.post('/mensaje', message);
     Swal.fire({
       text: 'Mensaje enviado!',
       icon: 'info',

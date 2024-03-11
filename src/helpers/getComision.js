@@ -1,7 +1,7 @@
 import efoghlamApi from '../api/efoghlamApi';
 
 export const getComision = async () => {
-  const response = await efoghlamApi.get('http://localhost:4000/api/comision');
+  const response = await efoghlamApi.get('/comision');
   const comisiones = response.data.comisiones.map((comision) => ({
     _id: comision._id,
     nombre: comision.nombre,

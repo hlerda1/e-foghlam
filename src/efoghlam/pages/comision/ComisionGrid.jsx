@@ -59,7 +59,7 @@ export const ComisionGrid = () => {
   const addComisiones = async (e) => {
     e.preventDefault();
     e.target.reset();
-    await efoghlamApi.post('http://localhost:4000/api/comision', comision);
+    await efoghlamApi.post('/comision', comision);
     // alert('Comision Agregada');
     Swal.fire({
       text: 'Comision creada!',
