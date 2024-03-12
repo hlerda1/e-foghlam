@@ -28,7 +28,7 @@ export const NavBar = () => {
           <span 
           // className='navbar-brand'
           >
-            <img src="Images/Foghlan_logo_trans.png" alt="Logo" width={40} height={40}/>
+            <img src="public/Images/Foghlan_logo_trans.png" alt="Logo" width={40} height={40}/>
               &nbsp;
             {user.nombre}
           </span>

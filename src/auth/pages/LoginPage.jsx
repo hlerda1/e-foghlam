@@ -110,7 +110,7 @@ export const LoginPage = () => {
         <div className='col-md-6 login-form-1'>
           <h3>Ingreso</h3>
           <div className='img-position' >
-            <img src="/Images/Foghlan_logo_trans.png" alt="Logo" />
+            <img src="/public/Images/Foghlan_logo_trans.png" alt="Logo" />
           </div>
           <form onSubmit={loginSubmit}>
             <div className='form-group mb-2'>
