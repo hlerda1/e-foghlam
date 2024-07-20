@@ -1,4 +1,10 @@
+import { NavBar } from "../components/NavBar";
 
 export const Tutor = () => {
-  return <div>Tutor</div>;
+  return (
+    <>
+    <NavBar/>
+    </>
+  )
+ 
 };
