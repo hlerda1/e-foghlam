@@ -1,4 +1,4 @@
-import { getAlumnoDato } from '../../../helpers/getAlumnoDato';
+import { getUsuarioDato } from '../../../helpers/getUsuarioDato';
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '../../../hooks/useAuthStore';
 import { useActividadStore } from '../../../hooks/useActividadStore';
@@ -10,7 +10,7 @@ export const DatosAlumno = () => {
     const { actividades, startLoadingActividades, startLoadingActividadesAlumno } = useActividadStore();
     
     const getAlumno = async () => {
-        const newAlumno = await getAlumnoDato(user.uid);
+        const newAlumno = await getUsuarioDato(user.uid);
         // console.log(user.uid);
         setAlumno(newAlumno);
       };
