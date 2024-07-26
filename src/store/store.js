@@ -5,6 +5,7 @@ import { uiSlice } from './ui/uiSlice';
 import { calendarSlice } from './calendar/calendarSlice';
 import { actividadSlice } from './actividades/actividadSlice';
 import { comisionSlice } from './comisiones/comisionSlice';
+import { calificacionSlice } from './calificacion/calificacionSlice';
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     calendar: calendarSlice.reducer,
     actividad: actividadSlice.reducer,
     comision: comisionSlice.reducer,
+    calificacion: calificacion.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
