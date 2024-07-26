@@ -27,7 +27,7 @@ export const AppRouter = () => {
 
   if (status == 'checking') {
     // return <h3>Cargando..</h3>;
-    return <div className='img-position'><img src='/public/Images/cargando.gif'></img><h3>Cargando..</h3></div>;
+    return <div className='img-position'><img src='/Images/cargando.gif'></img><h3>Cargando..</h3></div>;
   }
 
   const protectedRoutes = [...docente_route, ...alumno_route, ...tutor_route];
