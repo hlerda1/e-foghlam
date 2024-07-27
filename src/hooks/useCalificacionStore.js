@@ -5,7 +5,7 @@ import {
     onUpdateCalificacion,
     onDeleteCalificacion,
     onLoadCalificacion,
-} from '../store/turnos/calificacionSlice';
+} from '../store/calificaciones/calificacionSlice';
 import efoghlamApi from '../api/efoghlamApi';
 import Swal from 'sweetalert2';
 

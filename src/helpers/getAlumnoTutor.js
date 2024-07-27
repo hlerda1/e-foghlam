@@ -1,7 +1,8 @@
 import efoghlamApi from '../api/efoghlamApi';
+import { filtrarAlumnosTutor } from './filtrarAlumnosTutor';
 
-export const getAlumnoDato = async () => {
-  const response = await efoghlamApi.get(`/auth/usuario/?tutorAsignado[0]=${id}`);
+export const getAlumnoTutor = async (id) => {
+  const response = await efoghlamApi.get('/auth/usuario/?rol=alumno');
   const { msg } = await response.data;
 
   const alumnos = msg.map((alumno) => ({
@@ -15,5 +16,7 @@ export const getAlumnoDato = async () => {
     tutorAsignado: alumno.tutorAsignado,
   }));
 
-  return alumnos;
+  const alumnosTutor = filtrarAlumnosTutor (alumnos, id)
+
+  return alumnosTutor;
 };

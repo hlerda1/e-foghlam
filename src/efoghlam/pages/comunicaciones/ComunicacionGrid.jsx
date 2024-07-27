@@ -50,8 +50,6 @@ export const ComunicacionGrid = () => {
 
   return (
     <>
-      
-
       <div className='container'>
       <div className='header text-center'>
         <h3>Mensajes</h3>

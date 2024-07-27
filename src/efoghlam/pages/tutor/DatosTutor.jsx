@@ -1,5 +1,5 @@
 import { getUsuarioDato } from '../../../helpers/getUsuarioDato';
-import { getAlumnoDato } from '../../../helpers/getAlumnoDato';
+import { getAlumnoTutor } from '../../../helpers/getAlumnoTutor';
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '../../../hooks/useAuthStore';
 import { Link } from 'react-router-dom';
@@ -8,7 +8,8 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
 export const DatosTutor = () => {
-    const [tutor, setTutor, alumnos, setAlumnos] = useState([]);
+    const [tutor, setTutor] = useState([]);
+    const [alumnos, setAlumnos] = useState([]);
     const {  user } = useAuthStore();
 
     const getTutor = async () => {
@@ -22,8 +23,8 @@ export const DatosTutor = () => {
       }, []);
     
     const getAlumnos = async () => {
-        const newAlumnos = await getAlumnoDato(user.uid);
-        console.log(user.uid);
+        const newAlumnos = await getAlumnoTutor(user.uid);
+        // console.log(newAlumnos);
         setAlumnos(newAlumnos);
       };
       useEffect(() => {
@@ -56,7 +57,7 @@ export const DatosTutor = () => {
             <hr />
             <h3>Alumno/s</h3>
             <div>
-                {tutor.map((b) => (
+                {alumnos.map((b) => (
                 <Card style={{ width: '14rem' }}>
                     <Card.Img variant="top" src="./head.png"/>
                     <Card.Body>
