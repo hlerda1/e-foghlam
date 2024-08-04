@@ -69,7 +69,7 @@ export const useCalificacionStore = () => {
     try {
       const { data } = await efoghlamApi.get('/calificacion');
       const calificaciones = (data.calificaciones);      
-      dispatch(onLoadCalificacion(calficaciones));
+      dispatch(onLoadCalificacion(calificaciones));
      
     } catch (error) {
       console.log('Error al cargar calificaciones');
