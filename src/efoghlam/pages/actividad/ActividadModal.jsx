@@ -50,6 +50,8 @@ export const ActividadModal = () => {
     alumnos: [],
   });
 
+
+
   //Obtener Alumnos
   const getAlumnos = async () => {
     const newAlumnos = await getAlumno();
@@ -136,6 +138,8 @@ export const ActividadModal = () => {
 
   const onCloseModal = () => {
     closeActModal();
+    setInputfields([])
+    setShow(false)
   };
 
   // const handleCheckboxChange = event => {
@@ -245,7 +249,7 @@ export const ActividadModal = () => {
                         name='curso' value={formValues.curso} 
                         onChange={onInputChangedCursos}
                         >
-                          {/* <option value="">Seleccionar Cursos</option> */}
+                          <option value="">Seleccionar Cursos</option>
                           {cursoLista.map((cursos) => (
                             <option value={cursos._id}>{cursos.descripcion}</option>
                           ))}
@@ -287,9 +291,10 @@ export const ActividadModal = () => {
             <div className="" key={index}>
               {show ? (<input
                 type="text"
-                placeholder="Ingrese un valor"
+                placeholder="Ingrese Pregunta"
                 value={inputField.value}
                 onChange={(e) => handleValueChange(index, e)}
+                style={{ width:'500px' }}
                 />) : null}
               
               {show ? (<button className="text-danger mr-2" onClick={(e) => handleRemoveFields(index)}>

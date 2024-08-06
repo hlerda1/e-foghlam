@@ -12,11 +12,12 @@ export const filtrarAlumnosTutor = (alumnos = [], id) => {
         for (var u = 0; u < tutorLenght; u++) {
             data1.push(alumnos[i].tutorAsignado[u]); 
             for (var m = 0; m < data1.length; m++) {
-                if (data1[m] === id)
+                if (data1[m]._id === id)
+
                     resultado.push(alumnos[i]);
                 }
             }
-            // console.log(resultado)
+            console.log(resultado)
             return resultado
             }
 };

@@ -15,29 +15,62 @@ export const CalificacionGrid = () => {
   const [alumnos, setAlumnos] = useState([]);
   const [selectedCalificaciones, setSelectedCalificaciones] = useState([]);
   const [show, setShow] = useState(false);
+  const [showSug, setShowSug] = useState(false);
 
   let currentUserRole;
   if (localStorage.getItem('user')) {
     currentUserRole = JSON.parse(localStorage.getItem('user'));
   }
 
+
+
+  if (currentUserRole === 'alumno')
+    {
+      const getAlumno = async () => {
+          const newAlumno = await getUsuarioDato(user.uid);
+          setAlumnos(newAlumno);
+        };
+        useEffect(() => {
+          getAlumno();
+        }, []);
+    }else if (currentUserRole === 'docente')
+    {
+        const getAlumnos = async () => {
+            const newAlumnos = await getAlumno();
+            setAlumnos(newAlumnos);
+          };
+          useEffect(() => {
+            getAlumnos();
+          }, []);
+    }else if (currentUserRole === 'tutor')
+    {
+      const getAlumnosT = async () => {
+        const newAlumnos = await getAlumnoTutor(user.uid);
+        setAlumnos(newAlumnos);
+      };
+      useEffect(() => {
+        getAlumnosT();
+        setShowSug(true);
+      }, []);
+    }
+
   useEffect(() => {
     startLoadingCalificacion();
 
-    const fetchAlumnos = async () => {
-      if (currentUserRole === 'alumno') {
-        const newAlumno = await getUsuarioDato(user.uid);
-        setAlumnos(newAlumno);
-      } else if (currentUserRole === 'docente') {
-        const newAlumnos = await getAlumno();
-        setAlumnos(newAlumnos);
-      } else if (currentUserRole === 'tutor') {
-        const newAlumnos = await getAlumnoTutor(user.uid);
-        setAlumnos(newAlumnos);
-      }
-    };
+    // const fetchAlumnos = async () => {
+    //   if (currentUserRole === 'alumno') {
+    //     const newAlumno = await getUsuarioDato(user.uid);
+    //     setAlumnos(newAlumno);
+    //   } else if (currentUserRole === 'docente') {
+    //     const newAlumnos = await getAlumno();
+    //     setAlumnos(newAlumnos);
+    //   } else if (currentUserRole === 'tutor') {
+    //     const newAlumnos = await getAlumnoTutor(user.uid);
+    //     setAlumnos(newAlumnos);
+    //   }
+    // };
 
-    fetchAlumnos();
+    // fetchAlumnos();
   }, [user.uid, currentUserRole, startLoadingCalificacion]);
 
   const handleShowCalificaciones = (alumnoId) => {
@@ -126,9 +159,11 @@ export const CalificacionGrid = () => {
                 )
               )}
             </>
+            
           ) : (
             <p>No hay calificaciones disponibles para este alumno.</p>
           )}
+          {showSug ? (<div className='container' style={{ border: '1px solid #d0d0d0' }}>Sugerencias</div>) : null}
         </Modal.Body>
      
       </Modal>
