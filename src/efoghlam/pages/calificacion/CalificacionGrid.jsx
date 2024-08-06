@@ -27,7 +27,7 @@ export const CalificacionGrid = () => {
     const fetchAlumnos = async () => {
       if (currentUserRole === 'alumno') {
         const newAlumno = await getUsuarioDato(user.uid);
-        setAlumnos([newAlumno]);
+        setAlumnos(newAlumno);
       } else if (currentUserRole === 'docente') {
         const newAlumnos = await getAlumno();
         setAlumnos(newAlumnos);

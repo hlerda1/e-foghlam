@@ -1,0 +1,33 @@
+export const cargarAlumnosActividad = (alumnos = [], preguntas = []) => {
+
+    // console.log(alumnos)
+    // console.log(preguntas)
+
+    let alumnoLenght = alumnos.length
+    let preguntasLenght = preguntas.length
+    
+    let data = '' 
+    const listadoPreguntas = []
+    const resultado = []
+
+    
+    for (var i = 0; i < preguntasLenght; i++) {
+        let newObj = {"pregunta":preguntas[i].value, "respuesta":""};
+        // console.log(newObj)
+        listadoPreguntas.push(newObj);
+        // console.log(listadoPreguntas)
+    }
+    
+
+    for (var i = 0; i < alumnoLenght; i++) {
+        let newObj = {
+            "idAlumno": alumnos[i],
+            "estado": "Incompleto",
+            "cuestionario": listadoPreguntas,
+            "archivo": ""
+        }        
+        resultado.push(newObj);
+    }
+    console.log(resultado)
+    return resultado
+};

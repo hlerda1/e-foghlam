@@ -10,6 +10,9 @@ import { useMemo } from 'react';
 import { useUiStore } from '../../../hooks/useUiStore';
 import { useActividadStore } from '../../../hooks/useActividadStore';
 import { getAlumno } from '../../../helpers/getAlumno';
+import { getCursos } from '../../../helpers/getCursos';
+import { getCurso } from '../../../helpers/getCurso';
+import { cargarAlumnosActividad } from '../../../helpers/cargarAlumnosActividad';
 
 registerLocale('es', es);
 
@@ -32,6 +35,10 @@ export const ActividadModal = () => {
   const { activeActividad, startSavingActividad } = useActividadStore();
   const [isOpen, setIsOpen] = useState(true);
   const [alumnoSeleccion, setAlumnoSeleccion] = useState([]);
+  const [cursoLista, setCurso] = useState([]);
+  const [activeCurso, setActiveCurso] = useState([]);
+  const [inputFields, setInputfields] = useState([{value: ""}]);
+  const [show, setShow] = useState(false);
 
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -53,6 +60,16 @@ export const ActividadModal = () => {
     getAlumnos();
   }, []);
 
+  //Obtener Cursos
+  const getListaCursos = async () => {
+    const newCursos = await getCursos();
+    // console.log(newCursos);
+    setCurso(newCursos);
+  };
+  useEffect(() => {
+    getListaCursos();
+  }, []);
+
   // el valor se va a memorizar si el titulo cambia o si el formSubmitted cambia
   const titleClass = useMemo(() => {
     if (!formSubmitted) return '';
@@ -71,36 +88,82 @@ export const ActividadModal = () => {
       ...formValues,
       [target.name]: target.value,
     });
+    if (target.value === 'examen') {
+      // x = true;
+      setShow(true);
+    }else if (target.value === 'trabajoPractico') {setShow(false)}
   };
 
   const onDateChanged = (event, changing) => {
     setFormValues({
       ...formValues,
       [changing]: event,
-    });
+    });    
+  };
+
+  const getCursoId = async (id) => {
+    console.log(id)
+    const newCurso = await getCurso(id);
+    // console.log(newCurso);
+    setActiveCurso(newCurso);
+    console.log(activeCurso[0].comision.alumnos)
+  };
+
+  const onInputChangedCursos = ({ target }) => {
+    console.log(target.value)
+    getCursoId(target.value)
+  };
+
+  //Funcion para actualizar el valor de un campo de ingreso
+  const handleValueChange = (index, event) => {
+    const values = [...inputFields];
+    values[index].value = event.target.value;
+    setInputfields(values);
+    console.log(inputFields);
+  };
+
+  //Funcion para agregar un nuevo campo
+  const handleAddFields = () => {
+    setInputfields([...inputFields, {value: ""}]);
+  };
+
+   //Funcion para remover campo
+  const handleRemoveFields = (index) => {
+    const newInputFields = [...inputFields];
+    newInputFields.splice(index, 1);
+    setInputfields(newInputFields);
   };
 
   const onCloseModal = () => {
     closeActModal();
   };
 
-  const handleCheckboxChange = event => {
-    let newObj = {"idAlumno":event.target.value, "estado":"pendiente", "respuesta":""};
-    if (event.target.checked) {
-      formValues.alumnos.push(newObj)
-      // setFormValues( [...formValues.alumnos, {"idAlumno":event.target.value, "estado":"pendiente", "respuesta":""} ] );
-    } else {
-      formValues.alumnos = formValues.alumnos.filter(function (filtObj) {
-        return filtObj.idAlumno !== newObj.idAlumno;
-      });
-    }
-    console.log(formValues)
-  };
+  // const handleCheckboxChange = event => {
+  //   let newObj = {"idAlumno":event.target.value, "estado":"pendiente", "respuesta":""};
+  //   if (event.target.checked) {
+  //     formValues.alumnos.push(newObj)
+  //     // setFormValues( [...formValues.alumnos, {"idAlumno":event.target.value, "estado":"pendiente", "respuesta":""} ] );
+  //   } else {
+  //     formValues.alumnos = formValues.alumnos.filter(function (filtObj) {
+  //       return filtObj.idAlumno !== newObj.idAlumno;
+  //     });
+  //   }
+  //   console.log(formValues)
+  // };
+
+  const parseDataAlumno = () => {
+    const dataAlumno = cargarAlumnosActividad(activeCurso[0].comision.alumnos, inputFields);
+    console.log(dataAlumno);
+    setFormValues({...formValues, alumnos: dataAlumno});
+    // formValues.alumnos.push(dataAlumno)
+  }
 
   const onSubmit = async (event) => {
-    console.log(formValues)
+    parseDataAlumno();
+
+    // console.log(formValues)
     event.preventDefault();
-    setFormSubmitted(true);
+    setFormSubmitted(true);    
 
     // const difference = differenceInSeconds(formValues.end, formValues.start);
     // if (isNaN(difference) || difference <= 0) {
@@ -151,7 +214,7 @@ export const ActividadModal = () => {
                         value={formValues.descripcion} 
                         onChange={onInputChanged} 
                         placeholder='Descripción de la Actividad' 
-                        required='' 
+                        required='true' 
                     />
                     <select 
                         className='form-control mb-4' 
@@ -160,14 +223,14 @@ export const ActividadModal = () => {
                             <option value="">Seleccione tipo de actividad</option>
                             <option value="examen">Examen</option>
                             <option value="trabajoPractico">Trabajo Práctico</option>
-                            <option value="presentacion">Presentación</option>
+                            {/* <option value="presentacion">Presentación</option> */}
                     </select>
                     <input type="date" 
                         className='form-control  mb-4' 
                         name='fechaFin' 
                         value={formValues.fechaFin} 
                         onChange={onInputChanged}  
-                        required='' />
+                        required='true' />
                     <textarea type='text' 
                         className='form-control  mb-4' 
                         name='consigna' 
@@ -177,16 +240,28 @@ export const ActividadModal = () => {
                         required='' 
                     />
                     
+                    <select 
+                        className='form-control mb-4' 
+                        name='curso' value={formValues.curso} 
+                        onChange={onInputChangedCursos}
+                        >
+                          {/* <option value="">Seleccionar Cursos</option> */}
+                          {cursoLista.map((cursos) => (
+                            <option value={cursos._id}>{cursos.descripcion}</option>
+                          ))}
+                    </select>
+                    
                     <button type='submit' 
                         className='btn btn-primary btn-block mt-4'>
                             Crear Actividad
                     </button>
+                    
                 </div>
             </form>
           </div>
         </div>
         <div className='col-sm-8'>
-          <table className='table table-hover  table-striped table-bordered ml-4 '>
+          {/* <table className='table table-hover  table-striped table-bordered ml-4 '>
             <thead>
             <tr>
                 <th>Alumno</th>
@@ -205,8 +280,28 @@ export const ActividadModal = () => {
                   </tr>
                 ))}
               </tbody>
-          </table>
+          </table> */}
+          {show ? (<h2>Lista de Preguntas</h2>) : null}
+	
+          {inputFields.map((inputField, index) => (
+            <div className="" key={index}>
+              {show ? (<input
+                type="text"
+                placeholder="Ingrese un valor"
+                value={inputField.value}
+                onChange={(e) => handleValueChange(index, e)}
+                />) : null}
+              
+              {show ? (<button className="text-danger mr-2" onClick={(e) => handleRemoveFields(index)}>
+                <span class="far fa-trash-alt"></span>
+              </button>) : null}
+            </div>
+          ))}
+          {show ? (<button className="mr-2" onClick={handleAddFields}>
+            <span class="far fa-add"></span>
+          </button>) : null}
         </div>
+        
         </div>
     </Modal>
   );
